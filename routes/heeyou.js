@@ -38,6 +38,17 @@ var voicerrs_api_key = "4890c824fee047d7b31e8a872f863351";
 
 function saySomething(text_to_speach)
 {
+    Pico.say(text_to_speach, pico_lang, function(err) {
+        if (!err) {
+            piGlow(function(error, pi) {
+                pi.all=0;
+            });            
+        }
+    });
+}
+
+function saySomethingExtended(text_to_speach)
+{
     piGlow(function(error, pi) {
         pi.all=0;
     });
@@ -45,8 +56,8 @@ function saySomething(text_to_speach)
     var animation = piglow.animation;
     var pi = piglow.piGlowInterface;     
     var startAni = animation()
-        .set().to(pi(['blue'])).after('0.4s')
         .set().to(pi(['red'])).after('0.4s')
+        .set().to(pi(['blue'])).after('0.4s')
         .start();
 
     Pico.say(text_to_speach, pico_lang, function(err) {
@@ -66,7 +77,7 @@ function saySomething(text_to_speach)
 
             animation()
                 .set().to(pi(['red'])).after('0.4s')
-                .set().to(pi(['white'])).after('0.4s')
+                .set().to(pi(['blue'])).after('0.4s')
                 .repeat(30)
                 .fade().to(pi()).after('0.5s')
                 .start(function() {
@@ -348,32 +359,32 @@ var router = express.Router();
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/weather', function(req, res, next) {
-  var response_text = readWeather('forecast');
-  res.send('respond with: '+ response_text);
+  var response_text = readWeather('forecast'); 
+  res.render('index', { title: 'Weather', response: response_text });
 });
 
 /* GET: Tell everyone I'm up! */
 router.get('/reboot', function(req, res, next) {
-  response_text = saySomething("Hee You! I did a reboot");
-  res.send('respond with: '+ response_text);
+  response_text = saySomething("Hee You! I did a reboot");  
+  res.render('index', { title: 'Reboot', response: "Hee You! I did a reboot" });
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/raining', function(req, res, next) {
-  var response_text = readWeather('rain');
-  res.send('respond with: '+ response_text);
+  var response_text = readWeather('rain');  
+  res.render('index', { title: 'Raining?', response: response_text });
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/googlecal', function(req, res, next) {
-  var response_text = getEvents();
-  res.send('respond with: '+ response_text);
+  var response_text = getEvents();  
+  res.render('index', { title: 'google calender', response: response_text });
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/icloudcal', function(req, res, next) {
   var response_text = getMeetings();
-  res.send('respond with: '+ response_text);
+  res.render('index', { title: 'iCloud calender', response: response_text });
 });
 
 router.get('/piglow', function(req, res, next) {
