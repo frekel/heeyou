@@ -5,6 +5,7 @@ var readline 	            = require('readline');
 var google 		            = require('googleapis');
 var googleAuth              = require('google-auth-library');
 var moment                  = require('moment');
+var http                    = require('http');
 
 /* GOOGLE CAL */
 var SCOPES                  = ['https://www.googleapis.com/auth/calendar.readonly'];
@@ -28,7 +29,13 @@ var Pico                    = require('picotts');
 var piGlow = require('piglow');
 var piglow = require('piglow-animations');
 
+/* iCloud calender */
+var icloud_calender_host = "http://www.vanderstad.nl:8888";
+var icloud_calender_path = "/data/icloud-cal.json";
  
+var voicerrs_api_key = "4890c824fee047d7b31e8a872f863351"; 
+
+
 function saySomething(text_to_speach)
 {
     piGlow(function(error, pi) {
@@ -240,17 +247,97 @@ function listEvents(auth) {
         }
         var events = response.items;
         if (events.length <= 0) {
-            console.log('No upcoming events found.');
+            var what_to_say = 'No upcoming events found.';
+            console.log(what_to_say);
+            saySomething(what_to_say);
+            return what_to_say;
+
         } else {
             console.log('Upcoming 10 events:');
             console.dir(events);
             for (var i = 0; i < events.length; i++) {
                 var event = events[i];
                 var start = event.start.dateTime || event.start.date;
+                console.log(start);
                 var what_to_say = "You have the appointment " + event.summary + " at " + moment(start).calendar();
                 saySomething(what_to_say);
                 return what_to_say;
             }
+        }
+    });
+}
+
+function getMeetings()
+{
+    var icloud_url = {
+        host: icloud_calender_host,
+        path: icloud_calender_path
+    }
+    
+    request({
+        url: icloud_calender_host + icloud_calender_path,
+        json: true
+    }, function (error, response, body) {
+    
+        if (!error && response.statusCode === 200) {
+            var events = body;
+    
+            for (var j = 0; j < events.length; j++) {
+                var event = events[j];
+                var myStringArray = event.localStartDate;
+                var arrayLength = myStringArray.length;
+                var start;
+                for (var i = 0; i < arrayLength; i++) {
+                    if (i === 1)
+                    {
+                        start = myStringArray[i];     
+                    }
+                    if (i === 2)
+                    {
+                        if (myStringArray[i] < 10)
+                        {
+                            myStringArray[i] = "0" + myStringArray[i];
+                        }
+                        start = start + "-" + myStringArray[i];
+                    }
+                    if (i === 3)
+                    {
+                        if (myStringArray[i] < 10)
+                        {
+                            myStringArray[i] = "0" + myStringArray[i];
+                        }
+                        start = start + "-" + myStringArray[i];
+                    }
+                    if (i === 4)
+                    {
+                        //2016-01-23T12:00:00+01:00
+                        start = start + "T";
+                        if (myStringArray[i] < 10)
+                        {
+                            myStringArray[i] = "0" + myStringArray[i];
+                        }
+                        start = start + myStringArray[i];
+                    }
+                    if (i === 5)
+                    {
+                        if (myStringArray[i] < 10)
+                        {
+                            myStringArray[i] = "0" + myStringArray[i];
+                        }
+                        start = start + ":" + myStringArray[i];                 
+                        start = start + ":00+00:00";
+                    }
+    
+                }
+                var now = new Date();
+                var che = new Date(start);
+                if (now < che)
+                {      
+                    var what_to_say = "You have the appointment " + event.title + " at " + moment(start, 'YYYY-MM-DD-HH-II-SS').calendar();
+                    saySomething(what_to_say);
+                    return what_to_say;
+                }
+            }        
         }
     });
 }
@@ -280,6 +367,12 @@ router.get('/raining', function(req, res, next) {
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/googlecal', function(req, res, next) {
   var response_text = getEvents();
+  res.send('respond with: '+ response_text);
+});
+
+/* GET: Get the wheather forecast and speak up!. */
+router.get('/icloudcal', function(req, res, next) {
+  var response_text = getMeetings();
   res.send('respond with: '+ response_text);
 });
 
