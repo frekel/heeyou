@@ -28,18 +28,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/heeyou', heeyou);
 
-
-app.use(function (req, res, next) {
-    res.socket.on('_socketEnd',function() {
-        var s = this;
-        console.log('res.socket.on _socketEnd'); //See the problem
-        if (s) {
-            s.destroy(); //Stop the loop
-        }
-    });
-    next();
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
