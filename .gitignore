@@ -28,3 +28,5 @@ node_modules
 bin/_notes/dwsync.xml
 _notes/dwsync.xml
 icloud-cals.json
+
+routes/_notes/dwsync.xml
