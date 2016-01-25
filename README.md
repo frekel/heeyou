@@ -17,6 +17,7 @@ cd /var/www/node/heeyou
 
 sudo npm install nodemon -g
 sudo npm install express -g
+sudo npm install express-theme -g
 sudo npm install 
 
 DEBUG=heeyou:* npm start

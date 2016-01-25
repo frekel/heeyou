@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130981441718414298" remote="130981405200000000" Dst="1" />
-<file name="layout.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130981450985290535" remote="130981414800000000" Dst="1" />
+<file name="index.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130981441718414298" remote="130981405200000000" />
+<file name="error.jade" server="192.168.1.102/heeyou/" local="130981976046207072" remote="130982019600000000" />
+<file name="index.jade" server="192.168.1.102/heeyou/" local="130982066735085136" remote="130982030400000000" />
+<file name="layout-startbootstrap-landing-page.jade" server="192.168.1.102/heeyou/" local="130981976046216359" remote="130982019600000000" />
+<file name="layout.jade" server="192.168.1.102/heeyou/" local="130982249990524189" remote="130982214000000000" />
 </dwsync>

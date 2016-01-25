@@ -1,213 +1,469 @@
-doctype html(lang='en')
-head
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='content-type', content='text/html; charset=UTF-8')
     meta(charset='utf-8')
-    |     
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    |     
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    |     
-    meta(name='description', content='')
-    |     
-    meta(name='author', content='')
-    |     
-    title Landing Page - Start Bootstrap Theme
-    // Bootstrap Core CSS
-    link(href='css/bootstrap.min.css', rel='stylesheet')
-    // Custom CSS
-    link(href='css/landing-page.css', rel='stylesheet')
-    // Custom Fonts
-    link(href='font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
-    |     
-    link(href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
-    // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-    // WARNING: Respond.js doesn't work if you view the page via file://
+    title Bootstrap Google Plus Theme
+    meta(name='generator', content='Bootply')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(href='/themes/plain/css/bootstrap.min.css', rel='stylesheet')
     //if lt IE 9
-      script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
-      |         
-      script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+      script(src='//html5shim.googlecode.com/svn/trunk/html5.js')
+    link(href='/themes/plain/css/styles.css', rel='stylesheet')
   body
-    // Navigation
-    nav.navbar.navbar-default.navbar-fixed-top.topnav(role='navigation')
-      .container.topnav
-        // Brand and toggle get grouped for better mobile display
+    nav.navbar.navbar-fixed-top.header
+      .col-md-12
         .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-            span.sr-only Toggle navigation
-            |                     
-            span.icon-bar
-            |                     
-            span.icon-bar
-            |                     
-            span.icon-bar
-          |                 
-          a.navbar-brand.topnav(href='#') Start Bootstrap
-        // Collect the nav links, forms, and other content for toggling
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          a.navbar-brand(href='#') Bootstrap
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse1')
+            i.glyphicon.glyphicon-search
+        #navbar-collapse1.collapse.navbar-collapse
+          form.navbar-form.pull-left
+            .input-group(style='max-width:470px;')
+              input#srch-term.form-control(type='text', placeholder='Search', name='srch-term')
+              .input-group-btn
+                button.btn.btn-default.btn-primary(type='submit')
+                  i.glyphicon.glyphicon-search
           ul.nav.navbar-nav.navbar-right
             li
-              a(href='#about') About
-            |                     
+              a(href='http://www.bootply.com', target='_ext') Bootply+
             li
-              a(href='#services') Services
-            |                     
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                i.glyphicon.glyphicon-bell
+              ul.dropdown-menu
+                li
+                  a(href='#')
+                    span.badge.pull-right 40
+                    | Link
+                li
+                  a(href='#')
+                    span.badge.pull-right 2
+                    | Link
+                li
+                  a(href='#')
+                    span.badge.pull-right 0
+                    | Link
+                li
+                  a(href='#')
+                    span.label.label-info.pull-right 1
+                    | Link
+                li
+                  a(href='#')
+                    span.badge.pull-right 13
+                    | Link
             li
-              a(href='#contact') Contact
-        // /.navbar-collapse
-      // /.container
-    // Header
-    a(name='about')
-    |     
-    .intro-header
-      .container
-        .row
-          .col-lg-12
-            .intro-message
-              h1 Landing Page
-              |                         
-              h3 A Template by Start Bootstrap
-              |                         
-              hr.intro-divider
-              |                         
-              ul.list-inline.intro-social-buttons
+              a#btnToggle(href='#')
+                i.glyphicon.glyphicon-th-large
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-user
+    #subnav.navbar.navbar-default
+      .col-md-12
+        .navbar-header
+          a.navbar-btn.btn.btn-default.btn-plus.dropdown-toggle(href='#', style='margin-left:15px;', data-toggle='dropdown')
+            i.glyphicon.glyphicon-home(style='color:#dd1111;')
+            |  Home 
+            small
+              i.glyphicon.glyphicon-chevron-down
+          ul.nav.dropdown-menu
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-user(style='color:#1111dd;')
+                |  Profile
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-dashboard(style='color:#0000aa;')
+                |  Dashboard
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-inbox(style='color:#11dd11;')
+                |  Pages
+            li.nav-divider
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-cog(style='color:#dd1111;')
+                |  Settings
+            li
+              a(href='#')
+                i.glyphicon.glyphicon-plus
+                |  More..
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse2')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        #navbar-collapse2.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li.active
+              a(href='#') Posts
+            li
+              a(href='#loginModal', role='button', data-toggle='modal') Login
+            li
+              a(href='#aboutModal', role='button', data-toggle='modal') About
+    // main
+    #main.container
+      .row
+        .col-md-4.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Bootstrap Examples
+            .panel-body
+              .list-group
+                a.list-group-item(href='http://bootply.com/tagged/modal') Modal / Dialog
+                a.list-group-item(href='http://bootply.com/tagged/datetime') Datetime Examples
+                a.list-group-item(href='http://bootply.com/tagged/datatable') Data Grids
+          .well
+            form.form-horizontal(role='form')
+              h4 What's New
+              .form-group(style='padding:14px;')
+                textarea.form-control(placeholder='Update your status')
+              button.btn.btn-success.pull-right(type='button') Post
+              ul.list-inline
                 li
-                  a.btn.btn-default.btn-lg(href='https://twitter.com/SBootstrap')
-                    i.fa.fa-twitter.fa-fw
-                    |  
-                    span.network-name Twitter
-                |                             
+                  a(href='#')
+                    i.glyphicon.glyphicon-align-left
                 li
-                  a.btn.btn-default.btn-lg(href='https://github.com/IronSummitMedia/startbootstrap')
-                    i.fa.fa-github.fa-fw
-                    |  
-                    span.network-name Github
-                |                             
+                  a(href='#')
+                    i.glyphicon.glyphicon-align-center
                 li
-                  a.btn.btn-default.btn-lg(href='#')
-                    i.fa.fa-linkedin.fa-fw
-                    |  
-                    span.network-name Linkedin
-      // /.container
-    // /.intro-header
-    // Page Content
-    a(name='services')
-    |     
-    .content-section-a
-      .container
-        .row
-          .col-lg-5.col-sm-6
-            hr.section-heading-spacer
-            |                     
-            .clearfix
-            |                     
-            h2.section-heading
-            p.lead
-            block content
-          |                 
-          .col-lg-5.col-lg-offset-2.col-sm-6
-            img.img-responsive(src='img/ipad.png', alt='')
-      // /.container
-    // /.content-section-a
-    .content-section-b
-      .container
-        .row
-          .col-lg-5.col-lg-offset-1.col-sm-push-6.col-sm-6
-            hr.section-heading-spacer
-            |                     
-            .clearfix
-            |                     
-            h2.section-heading
-              | 3D Device Mockups
+                  a(href='#')
+                    i.glyphicon.glyphicon-align-right
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 More Templates
+            .panel-body
+              img.img-circle.pull-right(src='//placehold.it/150x150')
+              a(href='#') Free @Bootply
+              .clearfix
+              |                     There a load of new free Bootstrap 3 ready templates at Bootply. All of these templates are free and don't require extensive customization to the Bootstrap baseline.
+              hr
+              ul.list-unstyled
+                li
+                  a(href='http://www.bootply.com/templates') Dashboard
+                li
+                  a(href='http://www.bootply.com/templates') Darkside
+                li
+                  a(href='http://www.bootply.com/templates') Greenfield
+        .col-md-4.col-sm-6
+          .well
+            form.form
+              h4 Sign-up
+              .input-group.text-center
+                input.form-control.input-lg(type='text', placeholder='Enter your email address')
+                span.input-group-btn
+                  button.btn.btn-lg.btn-primary(type='button') OK
+          | 			block content
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Portlet Heading
+            .panel-body
+              ul.list-group
+                li.list-group-item Modals
+                li.list-group-item Sliders / Carousel
+                li.list-group-item Thumbnails
+        .col-md-4.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Portlet Heading
+            .panel-body
+              ul.list-group
+                li.list-group-item Bootply Playground
+                li.list-group-item Bootstrap Editor
+                li.list-group-item Bootstrap Templates
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Stackoverflow
+            .panel-body
+              img.img-circle.pull-right(src='//placehold.it/150x150')
+              a(href='#') Keyword: Bootstrap
+              .clearfix
+              hr
+              p
+                | If you're looking for help with Bootstrap code, the 
+                code twitter-bootstrap
+                |  tag at 
+                a(href='http://stackoverflow.com/questions/tagged/twitter-bootstrap') Stackoverflow
+                |  is a good place to find answers.
+              hr
+              form
+                .input-group
+                  .input-group-btn
+                    button.btn.btn-default +1
+                    button.btn.btn-default
+                      i.glyphicon.glyphicon-share
+                  input.form-control(type='text', placeholder='Add a comment..')
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Top Items
+            .panel-body
+              .list-group
+                a.list-group-item.active(href='http://bootply.com/tagged/bootstrap-3') Bootstrap 3
+                a.list-group-item(href='http://bootply.com/tagged/snippets') Snippets
+                a.list-group-item(href='http://bootply.com/tagged/example') Examples
+      // /row
+      hr
+      .row
+        .col-md-12
+          h2 Posts
+        .col-md-4.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Upgrade to Bootstrap 3
+            .panel-body
+              img.img-circle.pull-right(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=70')
+              a(href='#') Guidance and Tools
+              .clearfix
+              hr
+              p
+                | Migrating from Bootstrap 2.x to 3 is not a simple matter of swapping out the JS and CSS files.
+                | Bootstrap 3 is a major overhaul, and there are a lot of changes from Bootstrap 2.x. 
+                a(href='http://bootply.com/bootstrap-3-migration-guide') This guidance
+                |  is intended to help 2.x developers transition to 3.
+              h5
+                a(href='http://google.com/+bootply') More on Upgrading from +Bootply
+        .col-md-4.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Profiles
+            .panel-body
+              | Check out some of our member profiles..
+              hr
+              .well.well-sm
+                .media
+                  a.thumbnail.pull-left(href='#')
+                    img.media-object(src='//placehold.it/80')
+                  .media-body
+                    h4.media-heading John Doe
+                    p
+                      span.label.label-info 10 photos
+                      span.label.label-primary 89 followers
+                    p
+                      a.btn.btn-xs.btn-default(href='#')
+                        span.glyphicon.glyphicon-comment
+                        |  Message
+                      a.btn.btn-xs.btn-default(href='#')
+                        span.glyphicon.glyphicon-heart
+                        |  Favorite
+        .col-md-4.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Inspiration
+            .panel-body
+              img.img-circle.pull-right(src='//placehold.it/150')
+              a(href='#') Articles
+              .clearfix
+              hr
+              .clearfix
+              img.img-responsive.img-thumbnail.pull-right(src='http://placehold.it/120x90/3333CC/FFF')
+              p
+                | The more powerful (and 100% fluid) Bootstrap 3 grid now comes in 4 sizes (or "breakpoints"). Tiny (for smartphones), Small (for tablets), Medium (for laptops) and Large (for laptops/desktops).
+              .clearfix
+              hr
+              .clearfix
+              img.img-responsive.img-thumbnail.pull-left(src='http://placehold.it/120x90/33CC33/FFF', style='margin-right:5px;')
+              p
+                | Mobile first" is a responsive Web design practice that prioritizes consideration of smart phones and mobile devices when creating Web pages.
+        // /articles
+      hr
+      .row
+        .col-sm-4.col-xs-6
+          .panel.panel-default
+            .panel-thumbnail
+              img.img-responsive(src='//placehold.it/450X300/DD3333/EE3333')
+            .panel-body
+              p.lead Hacker News
+              p 120k Followers, 900 Posts
+              p
+                img(src='http://api.randomuser.me/portraits/med/men/20.jpg', width='28px', height='28px')
+                img(src='http://api.randomuser.me/portraits/med/men/21.jpg', width='28px', height='28px')
+                img(src='http://api.randomuser.me/portraits/med/men/14.jpg', width='28px', height='28px')
+        // /col
+        .col-sm-4.col-xs-6
+          .panel.panel-default
+            .panel-thumbnail
+              img.img-responsive(src='//placehold.it/450X300/DD66DD/EE77EE')
+            .panel-body
+              p.lead Bootstrap Templates
+              p 902 Followers, 88 Posts
+              p
+                img(src='http://api.randomuser.me/portraits/med/men/4.jpg', width='28px', height='28px')
+                img(src='http://api.randomuser.me/portraits/med/men/24.jpg', width='28px', height='28px')
+        // /col
+        .col-sm-4.col-xs-6
+          .panel.panel-default
+            .panel-thumbnail
+              img.img-responsive(src='//placehold.it/450X300/2222DD/2222EE')
+            .panel-body
+              p.lead Social Media
+              p 19k Followers, 789 Posts
+              p
+                img(src='http://api.randomuser.me/portraits/med/women/4.jpg', height='28px')
+                img(src='http://api.randomuser.me/portraits/med/men/4.jpg', width='28px', height='28px')
+        // /col
+      hr
+      .row
+        .col-md-12
+          h2 Playground
+        .col-md-12
+          .alert.alert-info.alert-dismissable
+            button.close(type='button', data-dismiss='alert', aria-hidden='true') ×
+            strong Heads up!
+            |  This alert needs your attention, but it's not super important.
+        .col-md-6.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Buttons & Labels
+            .panel-body
+              .row
+                .col-xs-4
+                  a.btn.btn-default.center-block(href='#') Button
+                .col-xs-4
+                  a.btn.btn-primary.center-block(href='#') Primary
+                .col-xs-4
+                  a.btn.btn-danger.center-block(href='#') Danger
               br
-              | by PSDCovers
-            |                     
-            p.lead
-              | Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by 
-              a(target='_blank', href='http://www.psdcovers.com/') PSDCovers
-              | ! Visit their website to download some of their awesome, free photoshop actions!
-          |                 
-          .col-lg-5.col-sm-pull-6.col-sm-6
-            img.img-responsive(src='img/dog.png', alt='')
-      // /.container
-    // /.content-section-b
-    .content-section-a
-      .container
-        .row
-          .col-lg-5.col-sm-6
-            hr.section-heading-spacer
-            |                     
-            .clearfix
-            |                     
-            h2.section-heading
-              | Google Web Fonts and
+              .row
+                .col-xs-4
+                  a.btn.btn-warning.center-block(href='#') Warning
+                .col-xs-4
+                  a.btn.btn-info.center-block(href='#') Info
+                .col-xs-4
+                  a.btn.btn-success.center-block(href='#') Success
+              hr
+              .btn-group.btn-group-sm
+                button.btn.btn-default 1
+                button.btn.btn-default 2
+                button.btn.btn-default 3
+              hr
+              .row
+                .col-md-4
+                  span.label.label-default Label
+                  span.label.label-success Success
+                .col-md-4
+                  span.label.label-warning Warning
+                  span.label.label-info Info
+                .col-md-4
+                  span.label.label-danger Danger
+                  span.label.label-primary Primary
+        .col-md-6.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Progress Bars
+            .panel-body
+              .progress
+                .progress-bar.progress-bar-info(style='width: 20%')
+              .progress
+                .progress-bar.progress-bar-success(style='width: 40%')
+              .progress
+                .progress-bar.progress-bar-warning(style='width: 80%')
+              .progress
+                .progress-bar.progress-bar-danger(style='width: 50%')
+        .col-md-6.col-sm-6
+          .panel.panel-default
+            .panel-heading
+              a.pull-right(href='#') View all
+              h4 Tabs
+            .panel-body
+              ul.nav.nav-tabs
+                li.active
+                  a(href='#A', data-toggle='tab') Section 1
+                li
+                  a(href='#B', data-toggle='tab') Section 2
+                li
+                  a(href='#C', data-toggle='tab') Section 3
+              .tabbable
+                .tab-content
+                  #A.tab-pane.active
+                    .well.well-sm I'm in Section A.
+                  #B.tab-pane
+                    .well.well-sm Howdy, I'm in Section B.
+                  #C.tab-pane
+                    .well.well-sm I've decided that I like wells.
+              // /tabbable
+              .col-sm-12.text-center
+                ul.pagination.center-block(style='display:inline-block;')
+                  li
+                    a(href='#') «
+                  li
+                    a(href='#') 1
+                  li
+                    a(href='#') 2
+                  li
+                    a(href='#') 3
+                  li
+                    a(href='#') 4
+                  li
+                    a(href='#') 5
+                  li
+                    a(href='#') »
+        // playground
+        br
+        .clearfix
+        hr
+        .col-md-12.text-center
+          p
+            a(href='http://www.bootply.com/download/90113', target='_ext') Download Google Plus Style Template
+            br
+            a(href='http://bootply.com/templates', target='_ext') More Bootstrap Templates by @Bootply
+        hr
+    // /main
+    // login modal
+    #loginModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h2.text-center
+              img.img-circle(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100')
               br
-              | Font Awesome Icons
-            |                     
-            p.lead
-              | This template features the &apos;Lato&apos; font, part of the 
-              a(target='_blank', href='http://www.google.com/fonts') Google Web Font library
-              | , as well as 
-              a(target='_blank', href='http://fontawesome.io') icons from Font Awesome
-              | .
-          |                 
-          .col-lg-5.col-lg-offset-2.col-sm-6
-            img.img-responsive(src='img/phones.png', alt='')
-      // /.container
-    // /.content-section-a
-    a(name='contact')
-    |     
-    .banner
-      .container
-        .row
-          .col-lg-6
-            h2 Connect to Start Bootstrap:
-          |                 
-          .col-lg-6
-            ul.list-inline.banner-social-buttons
-              li
-                a.btn.btn-default.btn-lg(href='https://twitter.com/SBootstrap')
-                  i.fa.fa-twitter.fa-fw
-                  |  
-                  span.network-name Twitter
-              |                         
-              li
-                a.btn.btn-default.btn-lg(href='https://github.com/IronSummitMedia/startbootstrap')
-                  i.fa.fa-github.fa-fw
-                  |  
-                  span.network-name Github
-              |                         
-              li
-                a.btn.btn-default.btn-lg(href='#')
-                  i.fa.fa-linkedin.fa-fw
-                  |  
-                  span.network-name Linkedin
-      // /.container
-    // /.banner
-    // Footer
-    footer
-      .container
-        .row
-          .col-lg-12
-            ul.list-inline
-              li
-                a(href='#') Home
-              |                         
-              li.footer-menu-divider &sdot;
-              |                         
-              li
-                a(href='#about') About
-              |                         
-              li.footer-menu-divider &sdot;
-              |                         
-              li
-                a(href='#services') Services
-              |                         
-              li.footer-menu-divider &sdot;
-              |                         
-              li
-                a(href='#contact') Contact
-            |                     
-            p.copyright.text-muted.small Copyright &copy; Your Company 2014. All Rights Reserved
-    // jQuery
-    script(src='js/jquery.js')
-    // Bootstrap Core JavaScript
-    script(src='js/bootstrap.min.js')
+              |                     Login
+          .modal-body
+            form.form.col-md-12.center-block
+              .form-group
+                input.form-control.input-lg(type='text', placeholder='Email')
+              .form-group
+                input.form-control.input-lg(type='password', placeholder='Password')
+              .form-group
+                button.btn.btn-primary.btn-lg.btn-block Sign In
+                span.pull-right
+                  a(href='#') Register
+                span
+                  a(href='#') Need help?
+          .modal-footer
+            .col-md-12
+              button.btn(data-dismiss='modal', aria-hidden='true') Cancel
+    // about modal
+    #aboutModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h2.text-center About
+          .modal-body
+            .col-md-12.text-center
+              a(href='http://www.bootply.com/DwnjTNuvVt') This Bootstrap Template
+              br
+              |                     was made with 
+              i.glyphicon.glyphicon-heart
+              |  by 
+              a(href='http://bootply.com/templates') Bootply
+              br
+              br
+              a(href='https://github.com/iatek/bootstrap-google-plus') GitHub Fork
+          .modal-footer
+            button.btn(data-dismiss='modal', aria-hidden='true') OK
+    // script references
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js')
+    script(src='/themes/plain/js/bootstrap.min.js')
+    script(src='/themes/plain/js/scripts.js')
