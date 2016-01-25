@@ -25,6 +25,9 @@ var Forecast                = require('forecast');
 var pico_lang				= 'en-US';
 var Pico                    = require('picotts');
 
+/* PiGlow */
+var piGlow = require('piglow');
+var piglow = require('piglow-animations');
 
 /* iCloud calender */
 var icloud_calender_host = "http://www.vanderstad.nl:8888";
@@ -40,6 +43,50 @@ function saySomething(text_to_speach)
             piGlow(function(error, pi) {
                 pi.all=0;
             });            
+        }
+    });
+}
+
+function saySomethingExtended(text_to_speach)
+{
+    piGlow(function(error, pi) {
+        pi.all=0;
+    });
+
+    var animation = piglow.animation;
+    var pi = piglow.piGlowInterface;     
+    var startAni = animation()
+        .set().to(pi(['red'])).after('0.4s')
+        .set().to(pi(['blue'])).after('0.4s')
+        .start();
+
+    Pico.say(text_to_speach, pico_lang, function(err) {
+        if (!err) {
+            startAni.stop();
+
+            piGlow(function(error, pi) {
+                pi.all=0;
+            });
+
+        } else {
+            startAni.stop();
+
+            piGlow(function(error, pi) {
+                pi.all=0;
+            });
+
+            animation()
+                .set().to(pi(['red'])).after('0.4s')
+                .set().to(pi(['blue'])).after('0.4s')
+                .repeat(30)
+                .fade().to(pi()).after('0.5s')
+                .start(function() {
+                    piGlow(function(error, pi) {
+                        pi.all=0;
+                    });
+
+                });
+
         }
     });
 }
@@ -342,6 +389,26 @@ router.get('/icloudcal', function(req, res, next) {
 
 router.get('/piglow', function(req, res, next) {
    //callback fires when board is initialized 
+
+    piGlow(function(error, pi) {
+        pi.all=0;
+    });
+
+    var animation = piglow.animation;
+    var pi = piglow.piGlowInterface;     
+    animation()
+        .set().to(pi(['red'])).after('0.4s')
+        .set().to(pi(['blue'])).after('0.4s')
+        .repeat(3)
+        .start(function() {
+            animation()
+                .fade().to(pi()).after('0.4s')
+                .start(function() {
+                    console.log("Done");
+                });
+            console.log("Done");
+        });
+    res.send('respond with: done');
 
 });
 module.exports = router;
