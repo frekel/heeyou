@@ -32,14 +32,19 @@ var icloud_calender_path = "/data/icloud-cal.json";
  
 var voicerrs_api_key = "4890c824fee047d7b31e8a872f863351"; 
 
+var locals = {
+        title: 		 'HeeYou',
+        description: 'A site dedicated to HeeYou',
+        author: 	 'Frank van der Stad',
+        _layoutFile: true
+};
+
 
 function saySomething(text_to_speach)
 {
     Pico.say(text_to_speach, pico_lang, function(err) {
         if (!err) {
-            piGlow(function(error, pi) {
-                pi.all=0;
-            });            
+            return text_to_speach;
         }
     });
 }
@@ -313,35 +318,48 @@ var router = express.Router();
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/weather', function(req, res, next) {
   var response_text = readWeather('forecast'); 
-  res.render('index', { title: 'Weather', response: response_text });
+  locals.title = 'Weather';
+  locals.response = response_text;
+  res.render('index', locals);
 });
 
 /* GET: Tell everyone I'm up! */
 router.get('/reboot', function(req, res, next) {
-  response_text = saySomething("Hee You! I did a reboot");  
-  res.render('index', { title: 'Reboot', response: "Hee You! I did a reboot" });
+  var response_text = saySomething("Hee You! I did a reboot");  
+  locals.title = 'Reboot';
+  locals.response = response_text;  
+  res.render('index', locals);
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/raining', function(req, res, next) {
   var response_text = readWeather('rain');  
-  res.render('index', { title: 'Raining?', response: response_text });
+  locals.title = 'Raining?';
+  locals.response = response_text;  
+  res.render('index', locals);
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/googlecal', function(req, res, next) {
   var response_text = getEvents();  
-  res.render('index', { title: 'google calender', response: response_text });
+  locals.title = 'Google Calender';
+  locals.response = response_text;  
+  res.render('index', locals);
 });
 
 /* GET: Get the wheather forecast and speak up!. */
 router.get('/icloudcal', function(req, res, next) {
   var response_text = getMeetings();
-  res.render('index', { title: 'iCloud calender', response: response_text });
+  locals.title = 'iCloud calender';
+  locals.response = response_text;  
+  res.render('index', locals);
 });
 
 router.get('/piglow', function(req, res, next) {
    //callback fires when board is initialized 
+  locals.title = 'piGlow is depricaded';
+  locals.response = 'piGlow is depricaded';  
+  res.render('error', locals);   
 
 });
 module.exports = router;

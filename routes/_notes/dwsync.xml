@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="heeyou.js" server="192.168.1.74" local="130975448861816531" remote="130975412400000000" />
-<file name="index.js" server="192.168.1.74" local="130973413108111337" remote="130972720200000000" />
-<file name="users.js" server="192.168.1.74" local="130973413108231431" remote="130972720200000000" />
-<file name="heeyou.js" server="ssh.vanderstad.nl/node/" local="130976625922790828" remote="130975412400000000" />
-<file name="index.js" server="ssh.vanderstad.nl/node/" local="130976625929981707" remote="130972720200000000" />
-<file name="users.js" server="ssh.vanderstad.nl/node/" local="130976625930646813" remote="130972720200000000" />
-<file name="heeyou.js" server="ssh.vanderstad.nl/node/heeyou/" local="130981442932611999" remote="130981407000000000" />
-<file name="heeyou.js" server="192.168.1.102/heeyou/" local="130982038782478197" remote="130982019600000000" />
-<file name="piglow.js" server="192.168.1.102/heeyou/" local="130982023376574826" remote="130982019600000000" />
-<file name="index.js" server="192.168.1.102/heeyou/" local="130981976046182524" remote="130982019600000000" />
-<file name="users.js" server="192.168.1.102/heeyou/" local="130981976046194476" remote="130982019600000000" />
+<file name="heeyou.js" server="192.168.1.74" local="130975448861816531" remote="130975412400000000" Dst="1" />
+<file name="index.js" server="192.168.1.74" local="130973413108111337" remote="130972720200000000" Dst="1" />
+<file name="users.js" server="192.168.1.74" local="130973413108231431" remote="130972720200000000" Dst="1" />
+<file name="heeyou.js" server="ssh.vanderstad.nl/node/" local="130976625922790828" remote="130975412400000000" Dst="1" />
+<file name="index.js" server="ssh.vanderstad.nl/node/" local="130976625929981707" remote="130972720200000000" Dst="1" />
+<file name="users.js" server="ssh.vanderstad.nl/node/" local="130976625930646813" remote="130972720200000000" Dst="1" />
+<file name="heeyou.js" server="ssh.vanderstad.nl/node/heeyou/" local="130983577331490149" remote="130983541200000000" Dst="1" />
+<file name="index.js" server="ssh.vanderstad.nl/node/heeyou/" local="130983965918059180" remote="130983929400000000" Dst="1" />
+<file name="piglow.js" server="ssh.vanderstad.nl/node/heeyou/" local="130982267295091129" remote="130982233800000000" Dst="1" />
+<file name="users.js" server="ssh.vanderstad.nl/node/heeyou/" local="130976625930646813" remote="130982233800000000" Dst="1" />
 </dwsync>

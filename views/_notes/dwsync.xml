@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130981441718414298" remote="130981405200000000" />
-<file name="error.jade" server="192.168.1.102/heeyou/" local="130981976046207072" remote="130982019600000000" />
-<file name="index.jade" server="192.168.1.102/heeyou/" local="130982066735085136" remote="130982030400000000" />
-<file name="layout-startbootstrap-landing-page.jade" server="192.168.1.102/heeyou/" local="130981976046216359" remote="130982019600000000" />
-<file name="layout.jade" server="192.168.1.102/heeyou/" local="130982249990524189" remote="130982214000000000" />
+<file name="index.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130982306125370353" remote="130982269800000000" Dst="1" />
+<file name="layout.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130982303176728181" remote="130982266800000000" Dst="1" />
+<file name="error.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130976625929643878" remote="130982233800000000" Dst="1" />
+<file name="layout-startbootstrap-landing-page.jade" server="ssh.vanderstad.nl/node/heeyou/" local="130982267295551482" remote="130982233800000000" Dst="1" />
+<file name="400.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983665300604644" remote="130983628800000000" Dst="1" />
+<file name="layout.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983667517058628" remote="130983631200000000" Dst="1" />
+<file name="home.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983168866499450" remote="130983511200000000" Dst="1" />
+<file name="500.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983665152464773" remote="130983631200000000" Dst="1" />
+<file name="error.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983667516217774" remote="130983631200000000" Dst="1" />
+<file name="index.ejs" server="ssh.vanderstad.nl/node/heeyou/" local="130983696809000294" remote="130983660600000000" Dst="1" />
 </dwsync>
