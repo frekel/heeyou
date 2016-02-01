@@ -6,11 +6,11 @@ var google 		            = require('googleapis');
 var googleAuth              = require('google-auth-library');
 var moment                  = require('moment');
 var http                    = require('http');
+var async                   = require('async');
 
-/* GOOGLE CAL */
-var SCOPES                  = ['https://www.googleapis.com/auth/calendar.readonly'];
-var TOKEN_DIR               = '/var/www/node/heeyou/tmp/credentials/';
-var TOKEN_PATH              = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
+var HeeYouProvider          = require('../db').HeeYouProvider;
+var heeyouProvider          = new HeeYouProvider('localhost', 27017);
+
 
 /* FORECAST */
 var longitude				= 52.3091520;
@@ -39,18 +39,22 @@ var locals = {
         _layoutFile: true
 };
 
-
-function saySomething(text_to_speach)
-{
-    Pico.say(text_to_speach, pico_lang, function(err) {
-        if (!err) {
-            return text_to_speach;
+function saySomething(text_to_speech, callback) {
+    console.log(text_to_speech);
+    Pico.say(text_to_speech, pico_lang, function(err) {
+        if (!err) {   
+            console.log("I have said:" + text_to_speech);
+            callback(null, text_to_speech);
         }
-    });
+        else
+        {
+            console.log("I cound not say:" + text_to_speech);
+            return callback(new Error(err));
+        }
+    });     
 }
 
-function readWeather(type)
-{
+function readWeather(type, callback) {
 
     // Initialize 
     var forecast = new Forecast({
@@ -66,14 +70,15 @@ function readWeather(type)
     });
  
     // Retrieve weather information from coordinates (Sydney, Australia) 
-    forecast.get([longitude, latitude], function(err, weather) {
+    forecast.get([longitude, latitude], function(err, weather)
+    {
         if(err) 
         {
             console.dir("Sorry! I can not write the weather forecast!");
             return "ERROR";
         }
         var jsonContent = weather;
-        if (type == 'rain')
+        if (type == 'raining')
         {
             switch(jsonContent.currently.precipType)
             {
@@ -102,139 +107,143 @@ function readWeather(type)
         { 
             var what_to_say = "The weather for today is " + jsonContent.hourly.summary + ". The temperature is aroud   " + Math.round(jsonContent.currently.temperature) + " degrees Celcius"
         }        
-
-        saySomething(what_to_say);
-        return what_to_say;
+        console.log(what_to_say);
+        callback(null, what_to_say);
     });
 }
 
-function getEvents()
-{
-    // Load client secrets from a local file.
-    fs.readFile('/var/www/node/heeyou/client_secret.json', function processClientSecrets(err, content) {
+var express = require('express');
+var router = express.Router();
+
+/* GET: Get the wheather forecast and speak up!. */
+router.get('/weather', function(req, res, next) {
+    async.waterfall([
+        async.apply(readWeather, 'weather'),
+        saySomething,
+    ], function (err, result) {
         if (err) {
-            console.log('Error loading client secret file: ' + err);
-            return;
-        }
-        // Authorize a client with the loaded credentials, then call the
-        // Google Calendar API.
-        authorize(JSON.parse(content), listEvents);
-    });
-}
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- *
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-function authorize(credentials, callback) {
-    var clientSecret = credentials.installed.client_secret;
-    var clientId = credentials.installed.client_id;
-    var redirectUrl = credentials.installed.redirect_uris[0];
-    var auth = new googleAuth();
-    var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-    
-    // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, function(err, token) {
-        if (err) {
-            getNewToken(oauth2Client, callback);
+            res.render('error', {message: err});
         } else {
-            oauth2Client.credentials = JSON.parse(token);
-            callback(oauth2Client);
+            locals.title    =   'What\'s the weather?';
+            locals.response =   result;  
+            locals.time     =   moment().format("HH:mm");
+            locals.date     =   moment().format("DD/MM/YYYY");  
+            locals.datetime =   moment().calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                });            
+            saveToDatabase('heeyou', locals);
+            res.json('index', locals);
+
         }
     });
-}
+});
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- *
- * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback to call with the authorized
- *     client.
- */
-function getNewToken(oauth2Client, callback) {
-    var authUrl = oauth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES
-    });
-    console.log('Authorize this app by visiting this url: ', authUrl);
-    var rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    rl.question('Enter the code from that page here: ', function(code) {
-        rl.close();
-        oauth2Client.getToken(code, function(err, token) {
-            if (err) {
-                console.log('Error while trying to retrieve access token', err);
-                return;
-            }
-            oauth2Client.credentials = token;
-            storeToken(token);
-            callback(oauth2Client);
-        });
-    });
-}
-
-/**
- * Store token to disk be used in later program executions.
- *
- * @param {Object} token The token to store to disk.
- */
-function storeToken(token) {
-    try {
-        fs.mkdirSync(TOKEN_DIR);
-    } catch (err) {
-        if (err.code != 'EEXIST') {
-            throw err;
-        }
-    }
-    fs.writeFile(TOKEN_PATH, JSON.stringify(token));
-    console.log('Token stored to ' + TOKEN_PATH);
-}
-
-/**
- * Lists the next 10 events on the user's primary calendar.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-function listEvents(auth) {
-    var calendar = google.calendar('v3');
-    calendar.events.list({
-        auth: auth,
-        calendarId: 'primary',
-        timeMin: (new Date()).toISOString(),
-        maxResults: 2,
-        singleEvents: true,
-        orderBy: 'startTime'
-    }, function(err, response) {
+/* GET: Check if it is going to rain.... */
+router.get('/raining', function(req, res, next) {
+    async.waterfall([
+        async.apply(readWeather, 'raining'),
+        saySomething,
+    ], function (err, result) {
         if (err) {
-            console.log('The API returned an error: ' + err);
-            return;
-        }
-        var events = response.items;
-        if (events.length <= 0) {
-            var what_to_say = 'No upcoming events found.';
-            console.log(what_to_say);
-            saySomething(what_to_say);
-            return what_to_say;
-
+            res.render('error', {message: err});
         } else {
-            console.log('Upcoming 10 events:');
-            console.dir(events);
-            for (var i = 0; i < events.length; i++) {
-                var event = events[i];
-                var start = event.start.dateTime || event.start.date;
-                console.log(start);
-                var what_to_say = "You have the appointment " + event.summary + " at " + moment(start).calendar();
-                saySomething(what_to_say);
-                return what_to_say;
-            }
+            locals.title = 'Is it going to rain?';
+            locals.response =   result;  
+            locals.time     =   moment().format("HH:mm");
+            locals.date     =   moment().format("DD/MM/YYYY");  
+            locals.datetime =   moment().calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                });
+            saveToDatabase('heeyou', locals);
+            res.json('index', locals);
+
         }
     });
-}
+});
+
+/* GET: Tell everyone I'm up! */
+router.get('/reboot', function(req, res, next) {
+    async.waterfall([
+        async.apply(saySomething, 'Hee You! I did a reboot!'),
+        getLog
+    ], function (err, result) {
+        if (err) {
+            res.render('error', {message: err});
+        } else {
+            locals.title    = 'Hee You! I did a reboot!';
+            locals.response =   result;  
+            locals.time     =   moment().format("HH:mm");
+            locals.date     =   moment().format("DD/MM/YYYY");  
+            locals.datetime =   moment().calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                });
+            locals.logitems = result;
+            saveToDatabase('heeyou', locals);
+            res.json('index', locals);
+
+        }
+    });
+});
+
+/* GET: Get the wheather forecast and speak up!. */
+router.get('/icloudcal', function(req, res, next) {
+    async.waterfall([
+        getMeetings,
+        saySomething,
+    ], function (err, result) {
+        if (err) {
+            res.render('error', {message: err});
+        } else {
+            locals.title    = 'iCloud calender';
+            locals.response =   result;  
+            locals.time     =   moment().format("HH:mm");
+            locals.date     =   moment().format("DD/MM/YYYY");  
+            locals.datetime =   moment().calendar(null, {
+                                    sameDay: '[Today]',
+                                    nextDay: '[Tomorrow]',
+                                    nextWeek: 'dddd',
+                                    lastDay: '[Yesterday]',
+                                    lastWeek: '[Last] dddd',
+                                    sameElse: 'DD/MM/YYYY'
+                                });
+            saveToDatabase('heeyou', locals);
+            res.json('index', locals);
+
+        }
+    });
+});
+
+router.get('/piglow', function(req, res, next) {
+    //callback fires when board is initialized 
+    locals.title    = 'piGlow is depricaded';
+    locals.response = 'piGlow is depricaded';  
+    locals.time     =   moment().format("HH:mm");
+    locals.date     =   moment().format("DD/MM/YYYY");  
+    locals.datetime =   moment().calendar(null, {
+                            sameDay: '[Today]',
+                            nextDay: '[Tomorrow]',
+                            nextWeek: 'dddd',
+                            lastDay: '[Yesterday]',
+                            lastWeek: '[Last] dddd',
+                            sameElse: 'DD/MM/YYYY'
+                        });
+    res.render('error', locals);   
+});
 
 function getMeetings()
 {
@@ -303,63 +312,29 @@ function getMeetings()
                 if (now < che)
                 {      
                     var what_to_say = "You have the appointment " + event.title + " at " + moment(start, 'YYYY-MM-DD-HH-II-SS').calendar();
-                    saySomething(what_to_say);
-                    return what_to_say;
+                    callback(null, what_to_say);
                 }
             }        
         }
     });
 }
 
+function saveToDatabase(db,locals)
+{
+    
+    heeyouProvider.save(locals, function( error, docs) {
+        console.log(error);
+    });
+   
+}
 
-var express = require('express');
-var router = express.Router();
+function getLog()
+{
+    heeyouProvider.findAll(function(error, emps){
+        console.log(emps);
+        callback(null, emps);
+    });
+}
 
-/* GET: Get the wheather forecast and speak up!. */
-router.get('/weather', function(req, res, next) {
-  var response_text = readWeather('forecast'); 
-  locals.title = 'Weather';
-  locals.response = response_text;
-  res.render('index', locals);
-});
 
-/* GET: Tell everyone I'm up! */
-router.get('/reboot', function(req, res, next) {
-  var response_text = saySomething("Hee You! I did a reboot");  
-  locals.title = 'Reboot';
-  locals.response = response_text;  
-  res.render('index', locals);
-});
-
-/* GET: Get the wheather forecast and speak up!. */
-router.get('/raining', function(req, res, next) {
-  var response_text = readWeather('rain');  
-  locals.title = 'Raining?';
-  locals.response = response_text;  
-  res.render('index', locals);
-});
-
-/* GET: Get the wheather forecast and speak up!. */
-router.get('/googlecal', function(req, res, next) {
-  var response_text = getEvents();  
-  locals.title = 'Google Calender';
-  locals.response = response_text;  
-  res.render('index', locals);
-});
-
-/* GET: Get the wheather forecast and speak up!. */
-router.get('/icloudcal', function(req, res, next) {
-  var response_text = getMeetings();
-  locals.title = 'iCloud calender';
-  locals.response = response_text;  
-  res.render('index', locals);
-});
-
-router.get('/piglow', function(req, res, next) {
-   //callback fires when board is initialized 
-  locals.title = 'piGlow is depricaded';
-  locals.response = 'piGlow is depricaded';  
-  res.render('error', locals);   
-
-});
 module.exports = router;
