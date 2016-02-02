@@ -124,7 +124,7 @@ router.get('/weather', function(req, res, next) {
             locals.title    =   'What\'s the weather?';
             locals.response =   result;  
             saveToDatabase('logentries', locals);
-			coll.find({}).toArray(function(err, docs) {
+			coll.find({}).sort({timestamp: -1}).toArray(function(err, docs) {
 				if (err)
 				{
 					res.json('error', err);
@@ -152,7 +152,7 @@ router.get('/raining', function(req, res, next) {
             locals.title = 'Is it going to rain?';
             locals.response =   result;  
             saveToDatabase('logentries', locals);
-			coll.find({}).toArray(function(err, docs) {
+			coll.find({}).sort({timestamp: -1}).toArray(function(err, docs) {
 				if (err)
 				{
 					res.json('error', err);
@@ -180,7 +180,7 @@ router.get('/reboot', function(req, res, next) {
             locals.title    = 'Hee You! I did a reboot!';
             locals.response =   result;  
             saveToDatabase('logentries', locals);
-			coll.find({}).toArray(function(err, docs) {
+			coll.find({}).sort({timestamp: -1}).toArray(function(err, docs) {
 				if (err)
 				{
 					res.json('error', err);
@@ -208,7 +208,7 @@ router.get('/icloudcal', function(req, res, next) {
             locals.title    = 'iCloud calender';
             locals.response =   result;  
             saveToDatabase('logentries', locals);
-			coll.find({}).toArray(function(err, docs) {
+			coll.find({}).sort({timestamp: -1}).toArray(function(err, docs) {
 				if (err)
 				{
 					res.json('error', err);
@@ -230,7 +230,7 @@ router.get('/piglow', function(req, res, next) {
     res.render('error', locals);   
 });
 
-function getMeetings()
+function getMeetings(callback)
 {
     var icloud_url = {
         host: icloud_calender_host,
@@ -315,23 +315,23 @@ function getMeetings()
 
 function saveToDatabase(collection,locals)
 {
-	locals.time     =   moment().format("HH:mm");
-	locals.date     =   moment().format("DD/MM/YYYY");  
-	locals.datetime =   moment().calendar(null, {
-							sameDay: '[Today]',
-							nextDay: '[Tomorrow]',
-							nextWeek: 'dddd',
-							lastDay: '[Yesterday]',
-							lastWeek: '[Last] dddd',
-							sameElse: 'DD/MM/YYYY'
-						});  	
+	locals.timestamp    =   new Date();
+    locals.time         =   moment().format("HH:mm");
+	locals.date         =   moment().format("DD/MM/YYYY");  
+	locals.datetime     =   moment().calendar(null, {
+                                sameDay: '[Today]',
+                                nextDay: '[Tomorrow]',
+                                nextWeek: 'dddd',
+                                lastDay: '[Yesterday]',
+                                lastWeek: '[Last] dddd',
+                                sameElse: 'DD/MM/YYYY'
+						    });  	
 	coll.insertOne(locals, function(err, result)
 	{
 		if (err)
 		{
 			console.log('r351:'+collection);
 			console.log('r352:'+locals);
-			console.log('r353:'+url);
 			console.log('r354:'+err);
 		}
 		else

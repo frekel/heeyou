@@ -143,46 +143,52 @@
         $(function(){
             $(".nav a").on("click", function(event){
                 event.preventDefault();
-                //$('#qnimate').removeClass('popup-box-on');
-                $(".nav").find(".active").removeClass("active");
-                $(this).parent().addClass("active");
-                var url = $(this).attr('href');
-                $(".robot").addClass('animated');
-                
-                $.get( url, function( data ) {
-                    $( ".result" ).html( data );
-                    $(".robot").removeClass('animated');
-                    $('#qnimate').addClass('popup-box-on');
-                    var html = '';
-					$.each(data.logitems,function(index, data){
-						console.log('My array has at position ' + index + ', this value: ' + data);
-						html = html +  '<div class="chat-box-single-line">';
-						html = html +  '    <abbr class="timestamp"> ' +  data.datetime + '</abbr>';
-						html = html +  '</div>';
-						html = html +  '<!-- Message. Default to the left -->';
-						html = html +  '<div class="direct-chat-msg doted-border">';
-						html = html +  '    <div class="direct-chat-info clearfix">';
-						html = html +  '        <span class="direct-chat-name pull-left">' +  data.title + '</span>';
-						html = html +  '    </div>';
-						html = html +  '    <!-- /.direct-chat-info -->';
-						html = html +  '    <img alt="" src="images/robot.thumb.fw.png" class="direct-chat-img"><!-- /.direct-chat-img -->';
-						html = html +  '    <div class="direct-chat-text">' + data.response + '</div>';
-						html = html +  '    <div class="direct-chat-info clearfix">';
-						html = html +  '        <span class="direct-chat-timestamp pull-right">' +  data.date + ' @ ' +  data.time + '</span>';
-						html = html +  '    </div>';
-						html = html +  '    <div class="direct-chat-info clearfix">';
-						html = html +  '        <img alt="" src="" class="direct-chat-img big-round">';
-						html = html +  '        <span class="direct-chat-reply-name">Chackadackawackadoowa</span>';
-						html = html +  '    </div>';
-						html = html +  '    <!-- /.direct-chat-text -->';
-						html = html +  '</div>';
-						html = html +  '<!-- /.direct-chat-msg -->';
-						html = html +  '</div>';
-					});					
-
-                    $('.direct-chat-messages').html(html);
-                });
-                
+                if ($(".robot").hasClass('animated'))
+                {
+                    console.log('even wachten');
+                }
+                else
+                {
+                    //$('#qnimate').removeClass('popup-box-on');
+                    $(".nav").find(".active").removeClass("active");
+                    $(this).parent().addClass("active");
+                    var url = $(this).attr('href');
+                    $(".robot").addClass('animated');
+                    
+                    $.get( url, function( data ) {
+                        $( ".result" ).html( data );
+                        $(".robot").removeClass('animated');
+                        $('#qnimate').addClass('popup-box-on');
+                        var html = '';
+                        $.each(data.logitems,function(index, data){
+                            console.log('My array has at position ' + index + ', this value: ' + JSON.stringify(data));
+                            html = html +  '<div class="chat-box-single-line">';
+                            html = html +  '    <abbr class="timestamp"> ' +  data.datetime + '</abbr>';
+                            html = html +  '</div>';
+                            html = html +  '<!-- Message. Default to the left -->';
+                            html = html +  '<div class="direct-chat-msg doted-border">';
+                            html = html +  '    <div class="direct-chat-info clearfix">';
+                            html = html +  '        <span class="direct-chat-name pull-left">' +  data.title + '</span>';
+                            html = html +  '    </div>';
+                            html = html +  '    <!-- /.direct-chat-info -->';
+                            html = html +  '    <img alt="" src="images/robot.thumb.fw.png" class="direct-chat-img"><!-- /.direct-chat-img -->';
+                            html = html +  '    <div class="direct-chat-text">' + data.response + '</div>';
+                            html = html +  '    <div class="direct-chat-info clearfix">';
+                            html = html +  '        <span class="direct-chat-timestamp pull-right">' +  data.date + ' @ ' +  data.time + '</span>';
+                            html = html +  '    </div>';
+                            html = html +  '    <div class="direct-chat-info clearfix">';
+                            html = html +  '        <img alt="" src="" class="direct-chat-img big-round">';
+                            html = html +  '        <span class="direct-chat-reply-name">Chackadackawackadoowa</span>';
+                            html = html +  '    </div>';
+                            html = html +  '    <!-- /.direct-chat-text -->';
+                            html = html +  '</div>';
+                            html = html +  '<!-- /.direct-chat-msg -->';
+                            html = html +  '</div>';
+                        });					
+    
+                        $('.direct-chat-messages').html(html);
+                    });
+                }
                 return false;
             });
         });            
